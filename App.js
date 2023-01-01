@@ -1,12 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import SpaceXLaunchList from './src/SpaceXLaunchList';
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+
+
+const client = new ApolloClient({
+  uri: "https://api.spacex.land/graphql/",
+  cache: new InMemoryCache()
+});
 
 export default function App() {
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    
+    <ApolloProvider client={client}>
+      <View style={styles.container}>
+        <StatusBar StatusBarStyle={"auto"} />
+        <Text style={styles.title}>SpaceX Launches</Text>
+        <SpaceXLaunchList />
+      </View>
+    </ApolloProvider>
   );
 }
 
@@ -14,7 +26,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection:'column',
+    marginBottom:10,
+  },
+  title: {
+    fontSize: 30,
+    padding: 10,
+    backgroundColor: "#4D77FF",
+    color: "#fff",
   },
 });
+
+
